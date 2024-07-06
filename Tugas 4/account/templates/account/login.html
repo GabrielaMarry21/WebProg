@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<style type="text/css">
+    body {
+        background-image: url("{% static 'base-image.jpg' %}");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .card {
+        margin-top: 50px;
+    }
+    .form-signin {
+        width: 100%;
+        max-width: 330px;
+        padding: 15px;
+        margin: 0 auto;
+        margin-top: 50px;
+    }
+
+  .form-signin .form-control {
+        position: relative;
+        box-sizing: border-box;
+        height: auto;
+        padding: 10px;
+        font-size: 16px;
+  }
+  .form-signin .form-control:focus {
+    z-index: 2;
+  }
+  .form-signin input[type="email"] {
+    margin-bottom: 10px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .form-signin input[type="text"] {
+    margin-bottom: 10px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .h3{
+    text-align: center;
+  }
+
+</style>
+
+<div class="container m-auto">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Login</h3>
+                </div>
+                <div class="card-body">
+                <img class="img-fluid mx-auto d-block" src="{% static 'barbie-logo.png' %}" alt="Barbie Logo" width="60" height="60">
+                    <form class="form-signin" method="post">{% csrf_token %}
+                        <div class="form-group">
+                            <label for="inputEmail">Email</label>
+                            <input type="email" name="email" id="inputEmail" class="form-control"  placeholder="Email address" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword1">Password</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                        </div>
+
+                        {% for field in login_form %}
+                            <p>
+                                {% for error in field.erros %}
+                                    <p style="color: red;">{{ error}}<p/>
+                                {% endfor %}
+                            </p>
+                        {% endfor %}
+                        {% if login_form.non_field.errors %}
+                            <div style="color: red">
+                                <p>{{ login_form.non_field_errors }}</p>
+                            </div>
+                        {% endif %}
+						<div class="d-flex flex-column">
+							<a class="m-auto" href="{% url 'password_reset' %}">Reset Password</a>
+						</div>
+
+
+                        <button class="btn btn-primary w-100 py-2" type="submit">Login</button>
+                    </form>
+                    <div class="d-flex flex-column">
+                        <p class="m-auto" style="color: black">Don't have an account? <a class="m-auto" href="{% url 'register' %}">Signup</a> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
